@@ -1,0 +1,87 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--User action beans-->
+    <bean id="userAction" class="com.tpjad.project.action.UserAction">
+        <property name="userService" ref="userService" />
+    </bean>
+
+    <bean id="userService" class="com.tpjad.project.service.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
+        <property name="roleDao" ref="roleDao"/>
+    </bean>
+
+    <bean id="userDao" class="com.tpjad.project.dao.UserDaoImpl">
+
+    </bean>
+
+    <bean id="roleDao" class="com.tpjad.project.dao.RoleDaoImpl">
+
+    </bean>
+
+    <!--Role action beans-->
+    <bean id="roleAction" class="com.tpjad.project.action.RoleAction">
+        <property name="roleService" ref="roleService"/>
+    </bean>
+
+    <bean id="roleService" class="com.tpjad.project.service.RoleServiceImpl">
+        <property name="roleDao" ref="roleDao"/>
+    </bean>
+
+    <!--Product action beans-->
+    <bean id="productAction" class="com.tpjad.project.action.ProductAction">
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <bean id="productService" class="com.tpjad.project.service.ProductServiceImpl">
+        <property name="productDao" ref="productDao"/>
+        <property name="categoryDao" ref="categoryDao"/>
+    </bean>
+
+    <bean id="productDao" class="com.tpjad.project.dao.ProductDaoImpl">
+
+    </bean>
+
+    <!--Category action beans-->
+    <bean id="categoryAction" class="com.tpjad.project.action.CategoryAction">
+        <property name="categoryService" ref="categoryService"/>
+    </bean>
+
+    <bean id="categoryService" class="com.tpjad.project.service.CategoryServiceImpl">
+        <property name="categoryDao" ref="categoryDao"/>
+    </bean>
+
+    <bean id="categoryDao" class="com.tpjad.project.dao.CategoryDaoImpl">
+
+    </bean>
+
+    <!--Database configuration beans-->
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+                <property name="database" value="MYSQL" />
+                <property name="showSql" value="false" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/project_tpjad_db" />
+        <property name="username" value="root" />
+        <property name="password" value="root" />
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+</beans>

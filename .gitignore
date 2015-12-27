@@ -1,0 +1,7 @@
+# Ignore Idea files
+
+*.iml
+*.orig
+.idea/
+
+target/
