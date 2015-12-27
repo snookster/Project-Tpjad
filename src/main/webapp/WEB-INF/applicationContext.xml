@@ -73,9 +73,9 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.spri
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/project_tpjad_db" />
-        <property name="username" value="root" />
-        <property name="password" value="root" />
+        <property name="url" value="jdbc:mysql://localhost:3306/${database.name}" />
+        <property name="username" value="${database.user}" />
+        <property name="password" value="${database.password}" />
     </bean>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -83,5 +83,11 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.spri
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <!--Properties file config-->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:database.properties"/>
+    </bean>
+
 
 </beans>
