@@ -3,6 +3,7 @@ package com.tpjad.project.action;
 import com.opensymphony.xwork2.ModelDriven;
 import com.tpjad.project.service.ProductService;
 import org.apache.struts2.convention.annotation.*;
+import org.json.JSONObject;
 
 /**
  * Created by Vlad Trenea on 12/17/2015.
@@ -39,11 +40,14 @@ public class ProductAction extends BaseAction implements ModelDriven<Object> {
     //TODO: figure out how to accept json data
     @Action("/product/add")
     public void add() {
-
+        if(request.getContentLength() > 0) {
+            JSONObject resultObject =  new JSONObject();
+        }
     }
 
     @Action("/product/update")
     public void update() {
+
 
     }
 

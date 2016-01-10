@@ -1,6 +1,7 @@
 package com.tpjad.project.action;
 
 import com.opensymphony.xwork2.ModelDriven;
+import com.tpjad.project.model.LoginModel;
 import com.tpjad.project.service.UserService;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -31,14 +32,14 @@ public class UserAction extends BaseAction implements ModelDriven<Object> {
         return SUCCESS;
     }
 
-    @Action("user/login")
+    @Action("/user/login")
     public String login(){
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        boolean isUserInSystem = userService.exists(username, password);
-        if(isUserInSystem)
-            return SUCCESS;
 
+        if(request.getContentLength() > 0) {
+
+            LoginModel model = super.getModel(LoginModel.class);
+            return SUCCESS;
+        }
         return ERROR;
     }
 
