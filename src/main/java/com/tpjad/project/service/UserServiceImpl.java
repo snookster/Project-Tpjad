@@ -56,6 +56,11 @@ public class UserServiceImpl implements UserService {
         userDao.update(user);
     }
 
+    public boolean exists(String username, String password) {
+        User entity = userDao.getByUsername(username);
+        return entity.getPassword().equals(password);
+    }
+
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }

@@ -14,4 +14,5 @@ public interface UserService {
     void addUser(UserModel userModel);
     void updateUser(UserModel userModel);
     void deleteUser(int id);
+    boolean exists(String username, String password);
 }

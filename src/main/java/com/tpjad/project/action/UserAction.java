@@ -31,6 +31,18 @@ public class UserAction extends BaseAction implements ModelDriven<Object> {
         return SUCCESS;
     }
 
+    @Action("user/login")
+    public String login(){
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        boolean isUserInSystem = userService.exists(username, password);
+        if(isUserInSystem)
+            return SUCCESS;
+
+        return ERROR;
+    }
+
+
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
