@@ -33,27 +33,26 @@ public class ProductAction extends BaseAction implements ModelDriven<Object> {
 
     @Action("/product/byId")
     public String byId() {
-        setModel(productService.getById(Integer.parseInt(request.getParameter("id"))));
+        setModel(productService.getProductById(Integer.parseInt(request.getParameter("id"))));
 
         return SUCCESS;
     }
 
     @Action("/product/add")
     public void add() throws InvalidRequestException {
-        if(request.getContentLength() > 0) {
-            ProductModel productModel = this.getModel(ProductModel.class);
-        }
+        ProductModel productModel = getModel(ProductModel.class);
+        productService.add(productModel);
     }
 
     @Action("/product/update")
-    public void update() {
-
-
+    public void update() throws InvalidRequestException {
+        ProductModel productModel = getModel(ProductModel.class);
+        productService.update(productModel);
     }
 
     @Action("/product/delete")
-    public void delete() {
-
+    public void delete() throws InvalidRequestException {
+        productService.delete(Integer.parseInt(request.getParameter("id")));
     }
 
     public void setProductService(ProductService productService) {

@@ -8,28 +8,41 @@ import java.util.Collection;
  * Created by Vlad Trenea on 12/27/2015.
  */
 public class ProductDaoImpl extends AbstractDao implements ProductDao {
+    @Override
     public Collection<Product> getAll() {
         return entityManager.createQuery("SELECT p FROM products p", Product.class).getResultList();
     }
 
+    @Override
     public Collection<Product> getByCategory(int categoryId) {
         return entityManager.createQuery("SELECT p FROM products p WHERE p.category.id = ?1", Product.class)
                 .setParameter(1, categoryId)
                 .getResultList();
     }
 
+    @Override
     public Product getById(int id) {
         return entityManager.find(Product.class, id);
     }
 
+    @Override
+    public Product getByName(String name) {
+        return entityManager.createQuery("SELECT p from products p WHERE p.name = ?1", Product.class)
+                .setParameter(1, name)
+                .getSingleResult();
+    }
+
+    @Override
     public void add(Product product) {
         entityManager.persist(product);
     }
 
+    @Override
     public void update(Product product) {
         entityManager.merge(product);
     }
 
+    @Override
     public void delete(Product product) {
         entityManager.remove(product);
     }

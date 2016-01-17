@@ -11,6 +11,7 @@ public interface ProductDao {
     Collection<Product> getAll();
     Collection<Product> getByCategory(int categoryId);
     Product getById(int id);
+    Product getByName(String name);
     void add(Product product);
     void update(Product product);
     void delete(Product product);
