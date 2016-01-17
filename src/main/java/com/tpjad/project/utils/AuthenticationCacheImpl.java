@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by Vlad Trenea on 1/17/2016.
  */
-public class AuthenticationCacheImpl<K, T> {
+public class AuthenticationCacheImpl<K, T> implements AuthenticationCache<K, T> {
 
     private long timeToLive;
     private LRUMap crunchifyCacheMap;

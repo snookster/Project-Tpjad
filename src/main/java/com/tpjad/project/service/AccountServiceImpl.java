@@ -5,6 +5,7 @@ import com.tpjad.project.entity.User;
 import com.tpjad.project.exception.InvalidRequestException;
 import com.tpjad.project.model.AuthenticationModel;
 import com.tpjad.project.model.LoginModel;
+import com.tpjad.project.utils.AuthenticationCache;
 import com.tpjad.project.utils.AuthenticationCacheImpl;
 import com.tpjad.project.utils.HashUtils;
 
@@ -16,7 +17,7 @@ import java.util.UUID;
 public class AccountServiceImpl implements AccountService {
 
     private UserDao userDao;
-    private AuthenticationCacheImpl authenticationCache;
+    private AuthenticationCache authenticationCache;
 
     @Override
     public AuthenticationModel login(LoginModel loginModel) throws InvalidRequestException {
