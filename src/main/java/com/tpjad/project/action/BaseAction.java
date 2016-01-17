@@ -2,11 +2,11 @@ package com.tpjad.project.action;
 
 import com.google.gson.Gson;
 import com.opensymphony.xwork2.ActionSupport;
+import com.tpjad.project.exception.InvalidRequestException;
 import org.apache.struts2.interceptor.ServletRequestAware;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
-import java.io.IOException;
 
 /**
  * Created by Vlad Trenea on 12/27/2015.
@@ -16,9 +16,10 @@ public class BaseAction extends ActionSupport implements ServletRequestAware {
     protected HttpServletRequest request;
     protected Object model;
 
-    protected <T> T getModel(Class<T> type) {
-        StringBuffer buffer = new StringBuffer();
-        String line = null;
+    protected <T> T getModel(Class<T> type) throws InvalidRequestException {
+        StringBuilder buffer = new StringBuilder();
+        String line;
+        T result;
 
         try {
             BufferedReader reader = request.getReader();
@@ -26,10 +27,13 @@ public class BaseAction extends ActionSupport implements ServletRequestAware {
             {
                 buffer.append(line);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            result = new Gson().fromJson(buffer.toString(),type);
+        } catch (Exception e) {
+            throw new InvalidRequestException("Invalid request format");
         }
-        return new Gson().fromJson(buffer.toString(),type);
+
+        return result;
     }
 
     public void setServletRequest(javax.servlet.http.HttpServletRequest httpServletRequest) {

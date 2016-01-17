@@ -1,19 +1,16 @@
 package com.tpjad.project.action;
 
 import com.opensymphony.xwork2.ModelDriven;
-import com.tpjad.project.model.LoginModel;
 import com.tpjad.project.service.UserService;
 import org.apache.struts2.convention.annotation.Action;
-import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.apache.struts2.convention.annotation.Result;
 
 /**
  * Created by Vlad Trenea on 12/23/2015.
  */
-@Result(name="success",type="json")
-@ParentPackage("json-default")
-@Namespace("packUsers")
+@ParentPackage("default")
+@InterceptorRef("customStack")
 public class UserAction extends BaseAction implements ModelDriven<Object> {
 
     private UserService userService;
@@ -31,18 +28,6 @@ public class UserAction extends BaseAction implements ModelDriven<Object> {
 
         return SUCCESS;
     }
-
-    @Action("/user/login")
-    public String login(){
-
-        if(request.getContentLength() > 0) {
-
-            LoginModel model = super.getModel(LoginModel.class);
-            return SUCCESS;
-        }
-        return ERROR;
-    }
-
 
     public void setUserService(UserService userService) {
         this.userService = userService;

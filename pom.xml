@@ -14,8 +14,9 @@
         <javax-servlet.version>2.5</javax-servlet.version>
         <persistence.version>2.1.0</persistence.version>
         <persistence-jpa.version>2.5.2</persistence-jpa.version>
+        <gson.version>2.3.1</gson.version>
+        <apache.commons.collections>3.2.1</apache.commons.collections>
     </properties>
-
 
     <dependencies>
         
@@ -69,16 +70,11 @@
             <version>${persistence-jpa.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20140107</version>
-        </dependency>
-
+        <!--Google gson-->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.3.1</version>
+            <version>${gson.version}</version>
         </dependency>
 
         <!--mysql connector-->
@@ -95,6 +91,11 @@
             <version>${javax-servlet.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>${apache.commons.collections}</version>
+        </dependency>
 
     </dependencies>
 

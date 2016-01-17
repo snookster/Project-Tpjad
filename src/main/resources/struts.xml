@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="false" />
+
+    <package name="default" extends="json-default">
+        <!--result-types-->
+
+        <!--interceptors-->
+        <interceptors>
+            <interceptor name="exceptionInterceptor" class="com.tpjad.project.interceptor.ExceptionInterceptor"/>
+            <interceptor name="authenticationInterceptor" class="com.tpjad.project.interceptor.AuthenticationInterceptor" />
+            <interceptor-stack name="customStack">
+                <interceptor-ref name="exceptionInterceptor"/>
+                <interceptor-ref name="authenticationInterceptor"/>
+            </interceptor-stack>
+        </interceptors>
+
+        <!--default-interceptor-ref-->
+
+        <!--default-action- ref-->
+
+        <!--default-class-ref-->
+
+        <!--global-results-->
+        <global-results>
+            <result name="success" type="json"/>
+            <result name="errorResult">/response/errorResponse.jsp</result>
+        </global-results>
+
+        <!--global-exception-mappings-->
+
+        <!--actions-->
+
+    </package>
+
+</struts>

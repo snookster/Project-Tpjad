@@ -11,6 +11,7 @@ public interface UserDao {
     Collection<User> getAll();
     User getById(int id);
     User getByUsername(String username);
+    User getByUsernameAndPassword(String username, String password);
     void add(User user);
     void update(User user);
 }

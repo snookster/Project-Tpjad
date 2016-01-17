@@ -26,6 +26,16 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 .getSingleResult();
     }
 
+    @Override
+    public User getByUsernameAndPassword(String username, String password) {
+        return entityManager.createQuery("SELECT u FROM users u WHERE u.username = ?1 AND u.password = ?2 " +
+                "AND u.isDeleted = ?3", User.class)
+                .setParameter(1, username)
+                .setParameter(2, password)
+                .setParameter(3, false)
+                .getSingleResult();
+    }
+
     public void add(User user) {
         entityManager.persist(user);
     }

@@ -21,6 +21,16 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.spri
 
     </bean>
 
+    <!--Account action beans-->
+    <bean id="accountAction" class="com.tpjad.project.action.AccountAction">
+        <property name="accountService" ref="accountService"/>
+    </bean>
+
+    <bean id="accountService" class="com.tpjad.project.service.AccountServiceImpl">
+        <property name="userDao" ref="userDao"/>
+        <property name="authenticationCache" ref="authenticationCache"/>
+    </bean>
+
     <!--Role action beans-->
     <bean id="roleAction" class="com.tpjad.project.action.RoleAction">
         <property name="roleService" ref="roleService"/>
@@ -57,6 +67,18 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.spri
 
     </bean>
 
+    <!--authentication interceptor-->
+    <bean id="authenticationInterceptor" class="com.tpjad.project.interceptor.AuthenticationInterceptor">
+        <property name="accountService" ref="accountService"/>
+    </bean>
+
+    <!--Cache config-->
+    <bean id="authenticationCache" class="com.tpjad.project.utils.AuthenticationCacheImpl">
+        <constructor-arg index="0" value="${cache.timeToLive}"/>
+        <constructor-arg index="1" value="${cache.timerInterval}"/>
+        <constructor-arg index="2" value="${cache.size}"/>
+    </bean>
+
     <!--Database configuration beans-->
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
@@ -86,7 +108,12 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.spri
 
     <!--Properties file config-->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:database.properties"/>
+        <property name="locations">
+            <list>
+                <value>classpath:database.properties</value>
+                <value>classpath:config.properties</value>
+            </list>
+        </property>
     </bean>
 
 

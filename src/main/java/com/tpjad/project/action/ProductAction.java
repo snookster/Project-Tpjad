@@ -1,17 +1,18 @@
 package com.tpjad.project.action;
 
 import com.opensymphony.xwork2.ModelDriven;
+import com.tpjad.project.exception.InvalidRequestException;
+import com.tpjad.project.model.ProductModel;
 import com.tpjad.project.service.ProductService;
-import org.apache.struts2.convention.annotation.*;
-import org.json.JSONObject;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.InterceptorRef;
+import org.apache.struts2.convention.annotation.ParentPackage;
 
 /**
  * Created by Vlad Trenea on 12/17/2015.
  */
-@Result(name="success",type="json")
-@ParentPackage("json-default")
-@Namespace("packProducts")
-@InterceptorRef(value = "json")
+@ParentPackage("default")
+@InterceptorRef("customStack")
 public class ProductAction extends BaseAction implements ModelDriven<Object> {
 
     private ProductService productService;
@@ -37,11 +38,10 @@ public class ProductAction extends BaseAction implements ModelDriven<Object> {
         return SUCCESS;
     }
 
-    //TODO: figure out how to accept json data
     @Action("/product/add")
-    public void add() {
+    public void add() throws InvalidRequestException {
         if(request.getContentLength() > 0) {
-            JSONObject resultObject =  new JSONObject();
+            ProductModel productModel = this.getModel(ProductModel.class);
         }
     }
 
