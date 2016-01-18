@@ -4,6 +4,7 @@ import com.tpjad.project.dao.CategoryDao;
 import com.tpjad.project.dao.ProductDao;
 import com.tpjad.project.entity.Product;
 import com.tpjad.project.exception.InvalidRequestException;
+import com.tpjad.project.exception.ResourceNotFoundException;
 import com.tpjad.project.mapper.ProductMapper;
 import com.tpjad.project.model.ProductModel;
 
@@ -48,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
         productDao.add(product);
     }
 
-    public void update(ProductModel productModel) throws InvalidRequestException {
+    public void update(ProductModel productModel) throws InvalidRequestException, ResourceNotFoundException {
         validateProduct(productModel);
 
         Product product = productDao.getByName(productModel.getName());
@@ -63,8 +64,9 @@ public class ProductServiceImpl implements ProductService {
         productDao.update(currentProduct);
     }
 
-    public void delete(int id) throws InvalidRequestException {
+    public void delete(int id) throws InvalidRequestException, ResourceNotFoundException {
         Product product = getById(id);
+
         productDao.delete(product);
     }
 
@@ -77,11 +79,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    private Product getById(int id) throws InvalidRequestException {
+    private Product getById(int id) throws ResourceNotFoundException {
         Product product = productDao.getById(id);
 
         if (product == null) {
-            throw new InvalidRequestException("Invalid product identifier");
+            throw new ResourceNotFoundException("Invalid product identifier");
         }
 
         return product;

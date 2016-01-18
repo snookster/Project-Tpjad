@@ -1,6 +1,7 @@
 package com.tpjad.project.service;
 
 import com.tpjad.project.exception.InvalidRequestException;
+import com.tpjad.project.exception.ResourceNotFoundException;
 import com.tpjad.project.model.ProductModel;
 
 import java.util.Collection;
@@ -13,6 +14,6 @@ public interface ProductService {
     Collection<ProductModel> getByCategory(int categoryId);
     ProductModel getProductById(int id);
     void add(ProductModel productModel) throws InvalidRequestException;
-    void update(ProductModel productModel) throws InvalidRequestException;
-    void delete(int id) throws InvalidRequestException;
+    void update(ProductModel productModel) throws InvalidRequestException, ResourceNotFoundException;
+    void delete(int id) throws InvalidRequestException, ResourceNotFoundException;
 }

@@ -5,12 +5,14 @@ import com.tpjad.project.exception.InvalidRequestException;
 import com.tpjad.project.model.LoginModel;
 import com.tpjad.project.service.AccountService;
 import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 /**
  * Created by Vlad Trenea on 1/17/2016.
  */
 @ParentPackage("default")
+@InterceptorRef("basicStack")
 public class AccountAction extends BaseAction implements ModelDriven<Object> {
 
     private AccountService accountService;

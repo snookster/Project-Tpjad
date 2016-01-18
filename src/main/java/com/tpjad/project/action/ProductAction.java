@@ -2,6 +2,7 @@ package com.tpjad.project.action;
 
 import com.opensymphony.xwork2.ModelDriven;
 import com.tpjad.project.exception.InvalidRequestException;
+import com.tpjad.project.exception.ResourceNotFoundException;
 import com.tpjad.project.model.ProductModel;
 import com.tpjad.project.service.ProductService;
 import org.apache.struts2.convention.annotation.Action;
@@ -45,13 +46,13 @@ public class ProductAction extends BaseAction implements ModelDriven<Object> {
     }
 
     @Action("/product/update")
-    public void update() throws InvalidRequestException {
+    public void update() throws InvalidRequestException, ResourceNotFoundException {
         ProductModel productModel = getModel(ProductModel.class);
         productService.update(productModel);
     }
 
     @Action("/product/delete")
-    public void delete() throws InvalidRequestException {
+    public void delete() throws InvalidRequestException, ResourceNotFoundException {
         productService.delete(Integer.parseInt(request.getParameter("id")));
     }
 
