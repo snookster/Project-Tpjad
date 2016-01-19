@@ -46,7 +46,7 @@ public class ProductDaoImpl extends AbstractDao implements ProductDao {
 
     @Override
     public void delete(Product product) {
-        entityManager.remove(product);
+        entityManager.remove(entityManager.merge(product));
     }
 
     private Product getProductFromResultList(Collection<Product> resultList) {
