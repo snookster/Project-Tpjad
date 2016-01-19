@@ -10,14 +10,9 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.spri
 
     <bean id="userService" class="com.tpjad.project.service.UserServiceImpl">
         <property name="userDao" ref="userDao"/>
-        <property name="roleDao" ref="roleDao"/>
     </bean>
 
     <bean id="userDao" class="com.tpjad.project.dao.UserDaoImpl">
-
-    </bean>
-
-    <bean id="roleDao" class="com.tpjad.project.dao.RoleDaoImpl">
 
     </bean>
 
@@ -29,15 +24,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.spri
     <bean id="accountService" class="com.tpjad.project.service.AccountServiceImpl">
         <property name="userDao" ref="userDao"/>
         <property name="authenticationCache" ref="authenticationCache"/>
-    </bean>
-
-    <!--Role action beans-->
-    <bean id="roleAction" class="com.tpjad.project.action.RoleAction">
-        <property name="roleService" ref="roleService"/>
-    </bean>
-
-    <bean id="roleService" class="com.tpjad.project.service.RoleServiceImpl">
-        <property name="roleDao" ref="roleDao"/>
     </bean>
 
     <!--Product action beans-->

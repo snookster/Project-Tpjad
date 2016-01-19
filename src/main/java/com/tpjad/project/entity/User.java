@@ -31,10 +31,6 @@ public class User {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_role_id")
-    private Role role;
-
     public int getId() {
         return id;
     }
@@ -85,13 +81,5 @@ public class User {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 }

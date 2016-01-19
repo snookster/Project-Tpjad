@@ -1,6 +1,5 @@
 package com.tpjad.project.service;
 
-import com.tpjad.project.dao.RoleDao;
 import com.tpjad.project.dao.UserDao;
 import com.tpjad.project.entity.User;
 import com.tpjad.project.mapper.UserMapper;
@@ -14,7 +13,6 @@ import java.util.Collection;
 public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
-    private RoleDao roleDao;
 
     public Collection<UserModel> getAll() {
         Collection<User> users = userDao.getAll();
@@ -37,7 +35,6 @@ public class UserServiceImpl implements UserService {
     public void addUser(UserModel userModel) {
         //TODO: validation
         User user = UserMapper.toUser(userModel);
-        user.setRole(roleDao.getById(userModel.getRole().getId()));
 
         userDao.add(user);
     }
@@ -46,7 +43,6 @@ public class UserServiceImpl implements UserService {
         //TODO: validation
         User user = userDao.getById(userModel.getId());
         UserMapper.refreshUser(user, userModel);
-        user.setRole(roleDao.getById(userModel.getRole().getId()));
     }
 
     public void deleteUser(int id) {
@@ -63,9 +59,5 @@ public class UserServiceImpl implements UserService {
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
-    }
-
-    public void setRoleDao(RoleDao roleDao) {
-        this.roleDao = roleDao;
     }
 }

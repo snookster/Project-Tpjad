@@ -26,7 +26,6 @@ public class UserMapper {
         userModel.setUsername(user.getUsername());
         userModel.setPassword(user.getPassword());
         userModel.setEmail(user.getEmail());
-        userModel.setRole(RoleMapper.toRoleModel(user.getRole()));
 
         return userModel;
     }
