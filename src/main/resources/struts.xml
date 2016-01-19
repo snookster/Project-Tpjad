@@ -11,18 +11,16 @@
 
         <!--interceptors-->
         <interceptors>
-            <interceptor name="exceptionInterceptor" class="com.tpjad.project.interceptor.ExceptionInterceptor"/>
             <interceptor name="authenticationInterceptor" class="com.tpjad.project.interceptor.AuthenticationInterceptor" />
             <interceptor name="servletConfig" class="org.apache.struts2.interceptor.ServletConfigInterceptor"/>
-            <interceptor-stack name="customStack">
+
+            <interceptor-stack name="authenticationStack">
                 <interceptor-ref name="servletConfig"/>
-                <interceptor-ref name="exceptionInterceptor"/>
                 <interceptor-ref name="authenticationInterceptor"/>
             </interceptor-stack>
 
-            <interceptor-stack name="basicStack">
+            <interceptor-stack name="noAuthenticationStack">
                 <interceptor-ref name="servletConfig"/>
-                <interceptor-ref name="exceptionInterceptor"/>
             </interceptor-stack>
         </interceptors>
 
