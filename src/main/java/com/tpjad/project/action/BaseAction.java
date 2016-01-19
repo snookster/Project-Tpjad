@@ -1,17 +1,21 @@
 package com.tpjad.project.action;
 
 import com.google.gson.Gson;
-import com.opensymphony.xwork2.ActionSupport;
 import com.tpjad.project.exception.InvalidRequestException;
+import com.tpjad.project.exception.ResourceNotFoundException;
 import org.apache.struts2.interceptor.ServletRequestAware;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 
 /**
  * Created by Vlad Trenea on 12/27/2015.
  */
-public class BaseAction extends ActionSupport implements ServletRequestAware {
+public class BaseAction implements ServletRequestAware {
+
+    protected final String SUCCESS = "success";
+    protected final String ERROR = "errorResult";
 
     protected HttpServletRequest request;
     protected Object model;
@@ -34,6 +38,25 @@ public class BaseAction extends ActionSupport implements ServletRequestAware {
         }
 
         return result;
+    }
+
+    protected String  getExceptionError(Exception ex) {
+        int statusCode;
+        String errorMessage = ex.getMessage();
+
+        if (ex instanceof InvalidRequestException) {
+            statusCode = HttpServletResponse.SC_BAD_REQUEST;
+        } else if (ex instanceof ResourceNotFoundException) {
+            statusCode = HttpServletResponse.SC_NOT_FOUND;
+        } else {
+            statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+            errorMessage = "Technical Error";
+        }
+
+        request.setAttribute("errorMsg", errorMessage);
+        request.setAttribute("errorCode", statusCode);
+
+        return ERROR;
     }
 
     public void setServletRequest(javax.servlet.http.HttpServletRequest httpServletRequest) {

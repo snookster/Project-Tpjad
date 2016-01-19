@@ -1,8 +1,6 @@
 package com.tpjad.project.action;
 
 import com.opensymphony.xwork2.ModelDriven;
-import com.tpjad.project.exception.InvalidRequestException;
-import com.tpjad.project.exception.ResourceNotFoundException;
 import com.tpjad.project.model.ProductModel;
 import com.tpjad.project.service.ProductService;
 import org.apache.struts2.convention.annotation.Action;
@@ -13,47 +11,77 @@ import org.apache.struts2.convention.annotation.ParentPackage;
  * Created by Vlad Trenea on 12/17/2015.
  */
 @ParentPackage("default")
-@InterceptorRef("customStack")
+@InterceptorRef("authenticationStack")
 public class ProductAction extends BaseAction implements ModelDriven<Object> {
 
     private ProductService productService;
 
     @Action("/product/all")
     public String all() {
-        setModel(productService.getAll());
+        try {
+            setModel(productService.getAll());
+        } catch (Exception e) {
+            return getExceptionError(e);
+        }
 
         return SUCCESS;
     }
 
     @Action("/product/byCategory")
     public String byCategory() {
-        setModel(productService.getByCategory(Integer.parseInt(request.getParameter("id"))));
+        try {
+            setModel(productService.getByCategory(Integer.parseInt(request.getParameter("id"))));
+        } catch (Exception e) {
+            return getExceptionError(e);
+        }
 
         return SUCCESS;
     }
 
     @Action("/product/byId")
     public String byId() {
-        setModel(productService.getProductById(Integer.parseInt(request.getParameter("id"))));
+        try {
+            setModel(productService.getProductById(Integer.parseInt(request.getParameter("id"))));
+        } catch (Exception e) {
+            return getExceptionError(e);
+        }
 
         return SUCCESS;
     }
 
     @Action("/product/add")
-    public void add() throws InvalidRequestException {
-        ProductModel productModel = getModel(ProductModel.class);
-        productService.add(productModel);
+    public String add() {
+        try {
+            ProductModel productModel = getModel(ProductModel.class);
+            productService.add(productModel);
+        } catch (Exception e) {
+            return getExceptionError(e);
+        }
+
+        return SUCCESS;
     }
 
     @Action("/product/update")
-    public void update() throws InvalidRequestException, ResourceNotFoundException {
-        ProductModel productModel = getModel(ProductModel.class);
-        productService.update(productModel);
+    public String update() {
+        try {
+            ProductModel productModel = getModel(ProductModel.class);
+            productService.update(productModel);
+        } catch (Exception e) {
+            return getExceptionError(e);
+        }
+
+        return SUCCESS;
     }
 
     @Action("/product/delete")
-    public void delete() throws InvalidRequestException, ResourceNotFoundException {
-        productService.delete(Integer.parseInt(request.getParameter("id")));
+    public String delete() {
+        try {
+            productService.delete(Integer.parseInt(request.getParameter("id")));
+        } catch (Exception e) {
+            return getExceptionError(e);
+        }
+
+        return SUCCESS;
     }
 
     public void setProductService(ProductService productService) {

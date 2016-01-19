@@ -10,21 +10,29 @@ import org.apache.struts2.convention.annotation.ParentPackage;
  * Created by Vlad Trenea on 12/23/2015.
  */
 @ParentPackage("default")
-@InterceptorRef("customStack")
+@InterceptorRef("authenticationStack")
 public class UserAction extends BaseAction implements ModelDriven<Object> {
 
     private UserService userService;
 
     @Action("/user/all")
     public String all() {
-        setModel(userService.getAll());
+        try {
+            setModel(userService.getAll());
+        } catch (Exception e) {
+            return getExceptionError(e);
+        }
 
         return SUCCESS;
     }
 
     @Action("/user/byId")
     public String byId() {
-        setModel(userService.getById(Integer.parseInt(request.getParameter("id"))));
+        try {
+            setModel(userService.getById(Integer.parseInt(request.getParameter("id"))));
+        } catch (Exception e) {
+            return getExceptionError(e);
+        }
 
         return SUCCESS;
     }
