@@ -42,9 +42,9 @@ public class ProductMapper {
         }
 
         Product product = new Product();
-        product.setName(product.getName());
-        product.setDescription(product.getDescription());
-        product.setStock(product.getStock());
+        product.setName(productModel.getName());
+        product.setDescription(productModel.getDescription());
+        product.setStock(productModel.getStock());
 
         return product;
     }
@@ -53,7 +53,6 @@ public class ProductMapper {
         product.setName(productModel.getName());
         product.setDescription(productModel.getDescription());
         product.setStock(productModel.getStock());
-
     }
 
 }

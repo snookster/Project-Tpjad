@@ -20,20 +20,24 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     public User getByUsername(String username) {
-        return entityManager.createQuery("SELECT u FROM users u WHERE u.username = ?1 AND u.isDeleted = ?2", User.class)
+        Collection<User> users = entityManager.createQuery("SELECT u FROM users u WHERE u.username = ?1 AND u.isDeleted = ?2", User.class)
                 .setParameter(1, username)
                 .setParameter(2, false)
-                .getSingleResult();
+                .getResultList();
+
+        return getUserFromResult(users);
     }
 
     @Override
     public User getByUsernameAndPassword(String username, String password) {
-        return entityManager.createQuery("SELECT u FROM users u WHERE u.username = ?1 AND u.password = ?2 " +
+        Collection<User> users = entityManager.createQuery("SELECT u FROM users u WHERE u.username = ?1 AND u.password = ?2 " +
                 "AND u.isDeleted = ?3", User.class)
                 .setParameter(1, username)
                 .setParameter(2, password)
                 .setParameter(3, false)
-                .getSingleResult();
+                .getResultList();
+
+        return getUserFromResult(users);
     }
 
     public void add(User user) {
@@ -42,5 +46,14 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     public void update(User user) {
         entityManager.merge(user);
+    }
+
+    private User getUserFromResult(Collection<User> resultList) {
+        User userToBeReturned = null;
+        if (resultList.size() > 0) {
+            userToBeReturned = resultList.iterator().next();
+        }
+
+        return userToBeReturned;
     }
 }

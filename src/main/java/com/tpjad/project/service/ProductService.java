@@ -13,7 +13,7 @@ public interface ProductService {
     Collection<ProductModel> getAll();
     Collection<ProductModel> getByCategory(int categoryId);
     ProductModel getProductById(int id);
-    void add(ProductModel productModel) throws InvalidRequestException;
+    void add(ProductModel productModel) throws InvalidRequestException, ResourceNotFoundException;
     void update(ProductModel productModel) throws InvalidRequestException, ResourceNotFoundException;
     void delete(int id) throws InvalidRequestException, ResourceNotFoundException;
 }

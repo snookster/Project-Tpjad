@@ -2,6 +2,7 @@ package com.tpjad.project.service;
 
 import com.tpjad.project.dao.CategoryDao;
 import com.tpjad.project.dao.ProductDao;
+import com.tpjad.project.entity.Category;
 import com.tpjad.project.entity.Product;
 import com.tpjad.project.exception.InvalidRequestException;
 import com.tpjad.project.exception.ResourceNotFoundException;
@@ -36,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
         return ProductMapper.toProductModel(product);
     }
 
-    public void add(ProductModel productModel) throws InvalidRequestException {
+    public void add(ProductModel productModel) throws InvalidRequestException, ResourceNotFoundException {
         validateProduct(productModel);
 
         if (productDao.getByName(productModel.getName()) != null) {
@@ -44,7 +45,12 @@ public class ProductServiceImpl implements ProductService {
         }
 
         Product product = ProductMapper.toProduct(productModel);
-        product.setCategory(categoryDao.getById(product.getCategory().getId()));
+        Category category = categoryDao.getById(productModel.getCategory().getId());
+        if (category == null) {
+            throw new ResourceNotFoundException("Invalid category identifier");
+        }
+
+        product.setCategory(category);
 
         productDao.add(product);
     }
@@ -58,8 +64,13 @@ public class ProductServiceImpl implements ProductService {
         }
 
         Product currentProduct = getById(productModel.getId());
+        Category category = categoryDao.getById(productModel.getCategory().getId());
+        if (category == null) {
+            throw new ResourceNotFoundException("Invalid category identifier");
+        }
         ProductMapper.refreshProduct(currentProduct, productModel);
-        product.setCategory(categoryDao.getById(productModel.getCategory().getId()));
+
+        product.setCategory(category);
 
         productDao.update(currentProduct);
     }
@@ -89,7 +100,7 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
-    private void validateProduct(ProductModel productModel) throws InvalidRequestException {
+    private void validateProduct(ProductModel productModel) throws InvalidRequestException, ResourceNotFoundException {
         if (productModel.getName() == null || productModel.getName().isEmpty()) {
             throw new InvalidRequestException("Product name is required");
         }

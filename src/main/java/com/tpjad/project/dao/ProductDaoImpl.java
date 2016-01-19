@@ -27,9 +27,11 @@ public class ProductDaoImpl extends AbstractDao implements ProductDao {
 
     @Override
     public Product getByName(String name) {
-        return entityManager.createQuery("SELECT p from products p WHERE p.name = ?1", Product.class)
+        Collection<Product> products = entityManager.createQuery("SELECT p from products p WHERE p.name = ?1", Product.class)
                 .setParameter(1, name)
-                .getSingleResult();
+                .getResultList();
+
+        return getProductFromResultList(products);
     }
 
     @Override
@@ -45,5 +47,14 @@ public class ProductDaoImpl extends AbstractDao implements ProductDao {
     @Override
     public void delete(Product product) {
         entityManager.remove(product);
+    }
+
+    private Product getProductFromResultList(Collection<Product> resultList) {
+        Product productToBeReturned = null;
+        if (resultList.size() > 0) {
+            productToBeReturned = resultList.iterator().next();
+        }
+
+        return productToBeReturned;
     }
 }
