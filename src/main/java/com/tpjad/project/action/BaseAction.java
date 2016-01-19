@@ -1,6 +1,7 @@
 package com.tpjad.project.action;
 
 import com.google.gson.Gson;
+import com.tpjad.project.exception.ConflictException;
 import com.tpjad.project.exception.InvalidRequestException;
 import com.tpjad.project.exception.ResourceNotFoundException;
 import org.apache.struts2.interceptor.ServletRequestAware;
@@ -20,7 +21,7 @@ public class BaseAction implements ServletRequestAware {
     protected HttpServletRequest request;
     protected Object model;
 
-    protected <T> T getModel(Class<T> type) throws InvalidRequestException {
+    protected <T> T getModelFromRequestBody(Class<T> type) throws InvalidRequestException {
         StringBuilder buffer = new StringBuilder();
         String line;
         T result;
@@ -48,6 +49,8 @@ public class BaseAction implements ServletRequestAware {
             statusCode = HttpServletResponse.SC_BAD_REQUEST;
         } else if (ex instanceof ResourceNotFoundException) {
             statusCode = HttpServletResponse.SC_NOT_FOUND;
+        } else if (ex instanceof ConflictException) {
+            statusCode = HttpServletResponse.SC_CONFLICT;
         } else {
             statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
             errorMessage = "Technical Error";

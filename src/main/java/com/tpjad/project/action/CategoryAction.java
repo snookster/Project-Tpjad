@@ -1,6 +1,8 @@
 package com.tpjad.project.action;
 
 import com.opensymphony.xwork2.ModelDriven;
+import com.tpjad.project.model.CategoryModel;
+import com.tpjad.project.model.RequestIdentifierModel;
 import com.tpjad.project.service.CategoryService;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -29,7 +31,40 @@ public class CategoryAction extends BaseAction implements ModelDriven<Object> {
     @Action("/category/byId")
     public String byId() {
         try {
-            setModel(categoryService.getById(Integer.parseInt(request.getParameter("id"))));
+            setModel(categoryService.getCategoryById(Integer.parseInt(request.getParameter("id"))));
+        } catch (Exception e) {
+            return getExceptionError(e);
+        }
+
+        return SUCCESS;
+    }
+
+    @Action("/category/add")
+    public String add() {
+        try {
+            categoryService.add(getModelFromRequestBody(CategoryModel.class));
+        } catch (Exception e) {
+            return getExceptionError(e);
+        }
+
+        return SUCCESS;
+    }
+
+    @Action("/category/update")
+    public String update() {
+        try {
+            categoryService.update(getModelFromRequestBody(CategoryModel.class));
+        } catch (Exception e) {
+            return getExceptionError(e);
+        }
+
+        return SUCCESS;
+    }
+
+    @Action("/category/delete")
+    public String delete() {
+        try {
+            categoryService.delete(getModelFromRequestBody(RequestIdentifierModel.class).getId());
         } catch (Exception e) {
             return getExceptionError(e);
         }

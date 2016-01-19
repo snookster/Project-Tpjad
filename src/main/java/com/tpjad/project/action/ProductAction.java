@@ -2,6 +2,7 @@ package com.tpjad.project.action;
 
 import com.opensymphony.xwork2.ModelDriven;
 import com.tpjad.project.model.ProductModel;
+import com.tpjad.project.model.RequestIdentifierModel;
 import com.tpjad.project.service.ProductService;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -52,7 +53,7 @@ public class ProductAction extends BaseAction implements ModelDriven<Object> {
     @Action("/product/add")
     public String add() {
         try {
-            ProductModel productModel = getModel(ProductModel.class);
+            ProductModel productModel = getModelFromRequestBody(ProductModel.class);
             productService.add(productModel);
         } catch (Exception e) {
             return getExceptionError(e);
@@ -64,7 +65,7 @@ public class ProductAction extends BaseAction implements ModelDriven<Object> {
     @Action("/product/update")
     public String update() {
         try {
-            ProductModel productModel = getModel(ProductModel.class);
+            ProductModel productModel = getModelFromRequestBody(ProductModel.class);
             productService.update(productModel);
         } catch (Exception e) {
             return getExceptionError(e);
@@ -76,7 +77,7 @@ public class ProductAction extends BaseAction implements ModelDriven<Object> {
     @Action("/product/delete")
     public String delete() {
         try {
-            productService.delete(Integer.parseInt(request.getParameter("id")));
+            productService.delete(getModelFromRequestBody(RequestIdentifierModel.class).getId());
         } catch (Exception e) {
             return getExceptionError(e);
         }

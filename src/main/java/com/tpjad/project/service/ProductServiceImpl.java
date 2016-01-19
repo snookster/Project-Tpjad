@@ -4,6 +4,7 @@ import com.tpjad.project.dao.CategoryDao;
 import com.tpjad.project.dao.ProductDao;
 import com.tpjad.project.entity.Category;
 import com.tpjad.project.entity.Product;
+import com.tpjad.project.exception.ConflictException;
 import com.tpjad.project.exception.InvalidRequestException;
 import com.tpjad.project.exception.ResourceNotFoundException;
 import com.tpjad.project.mapper.ProductMapper;
@@ -19,29 +20,33 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
     private CategoryDao categoryDao;
 
+    @Override
     public Collection<ProductModel> getAll() {
         Collection<Product> products = productDao.getAll();
 
         return ProductMapper.toProductModels(products);
     }
 
+    @Override
     public Collection<ProductModel> getByCategory(int categoryId) {
         Collection<Product> products = productDao.getByCategory(categoryId);
 
         return ProductMapper.toProductModels(products);
     }
 
-    public ProductModel getProductById(int id) {
-        Product product = productDao.getById(id);
+    @Override
+    public ProductModel getProductById(int id) throws ResourceNotFoundException {
+        Product product = getById(id);
 
         return ProductMapper.toProductModel(product);
     }
 
-    public void add(ProductModel productModel) throws InvalidRequestException, ResourceNotFoundException {
+    @Override
+    public void add(ProductModel productModel) throws InvalidRequestException, ResourceNotFoundException, ConflictException {
         validateProduct(productModel);
 
         if (productDao.getByName(productModel.getName()) != null) {
-            throw new InvalidRequestException("Product name already exists");
+            throw new ConflictException("Product name already exists");
         }
 
         Product product = ProductMapper.toProduct(productModel);
@@ -55,12 +60,13 @@ public class ProductServiceImpl implements ProductService {
         productDao.add(product);
     }
 
-    public void update(ProductModel productModel) throws InvalidRequestException, ResourceNotFoundException {
+    @Override
+    public void update(ProductModel productModel) throws InvalidRequestException, ResourceNotFoundException, ConflictException {
         validateProduct(productModel);
 
         Product product = productDao.getByName(productModel.getName());
         if (product != null && product.getId() != productModel.getId()) {
-            throw new InvalidRequestException("Product name already exists");
+            throw new ConflictException("Product name already exists");
         }
 
         Product currentProduct = getById(productModel.getId());
@@ -75,7 +81,8 @@ public class ProductServiceImpl implements ProductService {
         productDao.update(currentProduct);
     }
 
-    public void delete(int id) throws InvalidRequestException, ResourceNotFoundException {
+    @Override
+    public void delete(int id) throws ResourceNotFoundException {
         Product product = getById(id);
 
         productDao.delete(product);
@@ -89,7 +96,6 @@ public class ProductServiceImpl implements ProductService {
         this.categoryDao = categoryDao;
     }
 
-
     private Product getById(int id) throws ResourceNotFoundException {
         Product product = productDao.getById(id);
 
@@ -100,7 +106,11 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
-    private void validateProduct(ProductModel productModel) throws InvalidRequestException, ResourceNotFoundException {
+    private void validateProduct(ProductModel productModel) throws InvalidRequestException {
+        if (productModel == null) {
+            throw new InvalidRequestException("Product must not be null");
+        }
+
         if (productModel.getName() == null || productModel.getName().isEmpty()) {
             throw new InvalidRequestException("Product name is required");
         }

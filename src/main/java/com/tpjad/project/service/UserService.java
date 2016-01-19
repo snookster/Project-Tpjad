@@ -1,5 +1,6 @@
 package com.tpjad.project.service;
 
+import com.tpjad.project.exception.ResourceNotFoundException;
 import com.tpjad.project.model.UserModel;
 
 import java.util.Collection;
@@ -9,10 +10,5 @@ import java.util.Collection;
  */
 public interface UserService {
     Collection<UserModel> getAll();
-    UserModel getById(int id);
-    UserModel getByUsername(String username);
-    void addUser(UserModel userModel);
-    void updateUser(UserModel userModel);
-    void deleteUser(int id);
-    boolean exists(String username, String password);
+    UserModel getById(int id) throws ResourceNotFoundException;
 }

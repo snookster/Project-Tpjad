@@ -32,4 +32,15 @@ public class CategoryMapper {
 
         return categoryModels;
     }
+
+    public static Category toCategory(CategoryModel categoryModel) {
+        if (categoryModel == null) {
+            return null;
+        }
+
+        Category category = new Category();
+        category.setName(categoryModel.getName());
+
+        return category;
+    }
 }

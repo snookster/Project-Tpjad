@@ -9,5 +9,14 @@ import java.util.Collection;
  */
 public interface CategoryDao {
     Collection<Category> getAll();
+
     Category getById(int id);
+
+    Category getByName(String name);
+
+    void add(Category category);
+
+    void update(Category category);
+
+    void delete(Category category);
 }

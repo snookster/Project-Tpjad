@@ -2,6 +2,7 @@ package com.tpjad.project.service;
 
 import com.tpjad.project.dao.UserDao;
 import com.tpjad.project.entity.User;
+import com.tpjad.project.exception.ResourceNotFoundException;
 import com.tpjad.project.mapper.UserMapper;
 import com.tpjad.project.model.UserModel;
 
@@ -14,47 +15,22 @@ public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
 
+    @Override
     public Collection<UserModel> getAll() {
         Collection<User> users = userDao.getAll();
 
         return UserMapper.toUserModels(users);
     }
 
-    public UserModel getById(int id) {
+    @Override
+    public UserModel getById(int id) throws ResourceNotFoundException {
         User user = userDao.getById(id);
 
-        return UserMapper.toUserModel(user);
-    }
-
-    public UserModel getByUsername(String username) {
-        User user = userDao.getByUsername(username);
+        if (user == null) {
+            throw new ResourceNotFoundException("Invalid user identifier");
+        }
 
         return UserMapper.toUserModel(user);
-    }
-
-    public void addUser(UserModel userModel) {
-        //TODO: validation
-        User user = UserMapper.toUser(userModel);
-
-        userDao.add(user);
-    }
-
-    public void updateUser(UserModel userModel) {
-        //TODO: validation
-        User user = userDao.getById(userModel.getId());
-        UserMapper.refreshUser(user, userModel);
-    }
-
-    public void deleteUser(int id) {
-        User user = userDao.getById(id);
-        user.setDeleted(true);
-
-        userDao.update(user);
-    }
-
-    public boolean exists(String username, String password) {
-        User entity = userDao.getByUsername(username);
-        return entity.getPassword().equals(password);
     }
 
     public void setUserDao(UserDao userDao) {

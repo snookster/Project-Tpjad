@@ -19,7 +19,7 @@ public class AccountAction extends BaseAction implements ModelDriven<Object> {
     @Action(value = "/account/login")
     public String login() {
         try {
-            LoginModel loginModel = getModel(LoginModel.class);
+            LoginModel loginModel = getModelFromRequestBody(LoginModel.class);
             model = accountService.login(loginModel);
         } catch (Exception e) {
             return getExceptionError(e);
