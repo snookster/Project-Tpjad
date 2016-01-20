@@ -36,7 +36,7 @@ public class ProductDaoImpl extends AbstractDao implements ProductDao {
 
     @Override
     public void add(Product product) {
-        entityManager.persist(product);
+        entityManager.merge(product.getCategory());
     }
 
     @Override

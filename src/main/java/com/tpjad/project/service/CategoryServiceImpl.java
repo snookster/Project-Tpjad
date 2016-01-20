@@ -36,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
         validateCategory(categoryModel);
 
         if (categoryDao.getByName(categoryModel.getName()) != null) {
-            throw new ConflictException("Product name already exists");
+            throw new ConflictException("Category name already exists");
         }
 
         Category category = CategoryMapper.toCategory(categoryModel);

@@ -56,6 +56,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         product.setCategory(category);
+        category.getProducts().add(product);
 
         productDao.add(product);
     }
@@ -76,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
         }
         ProductMapper.refreshProduct(currentProduct, productModel);
 
-        product.setCategory(category);
+        currentProduct.setCategory(category);
 
         productDao.update(currentProduct);
     }

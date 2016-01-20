@@ -1,6 +1,9 @@
 package com.tpjad.project.entity;
 
+import org.eclipse.persistence.annotations.PrivateOwned;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -17,8 +20,9 @@ public class Category {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy="category", fetch = FetchType.EAGER)
-    private Collection<Product> products;
+    @OneToMany(mappedBy="category", orphanRemoval=true, cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @PrivateOwned
+    private Collection<Product> products = new ArrayList<>();
 
     public Integer getId() {
         return id;

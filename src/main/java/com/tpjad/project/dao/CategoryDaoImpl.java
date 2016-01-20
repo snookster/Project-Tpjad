@@ -1,7 +1,6 @@
 package com.tpjad.project.dao;
 
 import com.tpjad.project.entity.Category;
-import com.tpjad.project.entity.Product;
 
 import java.util.Collection;
 
@@ -43,9 +42,6 @@ public class CategoryDaoImpl extends AbstractDao implements CategoryDao {
     public void delete(Category category) {
         Category categoryToDelete = entityManager.merge(category);
 
-        for (Product p : categoryToDelete.getProducts()) {
-            entityManager.remove(p);
-        }
         entityManager.remove(categoryToDelete);
     }
 
