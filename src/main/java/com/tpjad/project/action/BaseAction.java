@@ -9,11 +9,15 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Vlad Trenea on 12/27/2015.
  */
 public class BaseAction implements ServletRequestAware {
+
+    private static final Logger LOGGER = Logger.getLogger(BaseAction.class.getName());
 
     protected final String SUCCESS = "success";
     protected final String ERROR = "errorResult";
@@ -52,6 +56,7 @@ public class BaseAction implements ServletRequestAware {
         } else if (ex instanceof ConflictException) {
             statusCode = HttpServletResponse.SC_CONFLICT;
         } else {
+            LOGGER.log(Level.WARNING, ex.toString(), ex);
             statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
             errorMessage = "Technical Error";
         }
