@@ -22,7 +22,7 @@ public class Category {
 
     @OneToMany(mappedBy="category", orphanRemoval=true, cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     @PrivateOwned
-    private Collection<Product> products = new ArrayList<>();
+    private Collection<Product> products = new ArrayList<Product>();
 
     public Integer getId() {
         return id;

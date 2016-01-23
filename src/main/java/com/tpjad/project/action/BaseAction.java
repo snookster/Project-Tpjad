@@ -35,7 +35,7 @@ public class BaseAction implements ServletRequestAware {
             while((line = reader.readLine()) != null)
             {
                 buffer.append(line);
-            }
+        }
 
             result = new Gson().fromJson(buffer.toString(),type);
         } catch (Exception e) {

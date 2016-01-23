@@ -85,6 +85,7 @@ public class ProductAction extends BaseAction implements ModelDriven<Object> {
         return SUCCESS;
     }
 
+
     public void setProductService(ProductService productService) {
         this.productService = productService;
     }

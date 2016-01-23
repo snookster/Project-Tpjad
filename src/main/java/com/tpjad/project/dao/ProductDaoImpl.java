@@ -49,6 +49,16 @@ public class ProductDaoImpl extends AbstractDao implements ProductDao {
         entityManager.remove(entityManager.merge(product));
     }
 
+    @Override
+    public boolean buyProduct(Product product) {
+        if(product.getStock() > 0) {
+            product.setStock(product.getStock() - 1);
+            entityManager.merge(product);
+            return true;
+        }
+        return false;
+    }
+
     private Product getProductFromResultList(Collection<Product> resultList) {
         Product productToBeReturned = null;
         if (resultList.size() > 0) {

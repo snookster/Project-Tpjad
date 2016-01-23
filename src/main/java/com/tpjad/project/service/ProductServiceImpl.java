@@ -89,6 +89,12 @@ public class ProductServiceImpl implements ProductService {
         productDao.delete(product);
     }
 
+    @Override
+    public boolean updateStock(int id) throws ResourceNotFoundException {
+        Product product = getById(id);
+        return productDao.buyProduct(product);
+    }
+
     public void setProductDao(ProductDao productDao) {
         this.productDao = productDao;
     }

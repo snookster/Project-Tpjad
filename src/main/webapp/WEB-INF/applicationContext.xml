@@ -53,6 +53,10 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.spri
 
     </bean>
 
+    <bean id="productCustomerAction" class="com.tpjad.project.action.ProductCustomerAction">
+        <property name="productService" ref="productService"/>
+    </bean>
+
     <!--authentication interceptor-->
     <bean id="authenticationInterceptor" class="com.tpjad.project.interceptor.AuthenticationInterceptor">
         <property name="accountService" ref="accountService"/>

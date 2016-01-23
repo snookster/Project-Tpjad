@@ -17,4 +17,5 @@ public interface ProductService {
     void add(ProductModel productModel) throws InvalidRequestException, ResourceNotFoundException, ConflictException;
     void update(ProductModel productModel) throws InvalidRequestException, ResourceNotFoundException, ConflictException;
     void delete(int id) throws ResourceNotFoundException;
+    boolean updateStock(int id) throws ResourceNotFoundException;
 }
